@@ -20,9 +20,9 @@ app.layout = dbc.Container(children=[
                 dbc.CardBody([
                     dbc.Row([
                         dbc.Col([
-                            html.H1('Analysis Financial (dre)', style={"text-align": "center", 'font-size': '400%', 'color': 'blue', })
+                            html.H1('Analysis Financial (dre)', style={"text-align": "center", 'font-size': '400%', 'color': 'rgba(53, 61, 98, 0.75)'})
 
-                        ], sm=12, align='center')
+                        ], sm=12, align='center', style={'background-color': 'rgba(50, 72, 174, 0.75)', 'border-radius': '10px'})
                     ])
                 ])
             ], style=tab_card)
