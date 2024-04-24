@@ -1,4 +1,4 @@
-from dash import Dash, html, Output, Input, callback, dcc
+from dash import Dash, html, Output, Input, callback, dcc, State
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 import plotly.express as px
@@ -39,7 +39,20 @@ themes_options = [
     {'label' : 'QUARTZ', 'value' : dbc.themes.QUARTZ}
     ]
 
-config_graph = {'displayModerBar': False, 'showTips': False}
+config_graph = {'displayModeBar': False, 'showTips': False}
+
+
+main_config = {
+    "hovermode": "x unified",
+    "legend":{"yanchor": "top", 
+              "y": 0.8, "xanchor": "left", 
+              "x": 0.0,
+              "title": {"text": None},
+              "font": {"color": "white"},
+              "bgcolor": "rgba(0,0,0,0.5)"},
+    "margin":{"l": 10, "r": 10, "t": 80, "b": 10}
+}
+
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css])
 
@@ -52,12 +65,12 @@ app.layout = dbc.Container(children=[
                 dbc.CardBody([
                     dbc.Row([
                         dbc.Col([
-                            html.H1('Analysis Financial (dre)', style={"text-align": "center", 'font-size': '400%', 'color': 'rgba(53, 61, 98, 0.75)'})
+                            html.H1('Analysis Financial (dre)', style={"text-align": "center", 'font-size': '400%'}) #'color': 'rgba(53, 61, 98, 0.75)'
 
-                        ], sm=10, align='center', style={'background-color': 'rgba(50, 72, 174, 0.75)', 'border-radius': '10px'}),
+                        ], sm=10, align='center', style={'border-radius': '10px'}), #'background-color': 'rgba(50, 72, 174, 0.75)'
 
                         dbc.Col([
-                            ThemeChangerAIO(aio_id='theme', radio_props={'value' : dbc.themes.DARKLY, 'options': themes_options})
+                            ThemeChangerAIO(aio_id='theme', radio_props={'value' : dbc.themes.QUARTZ, 'options': themes_options})
 
                         ], sm=2)
                     ])
@@ -147,9 +160,36 @@ app.layout = dbc.Container(children=[
         Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
 )
 def graph1(theme):
-    return
 
+    dfLB = df.groupby('Ano', sort=False)['% Lucro Bruto'].sum().reset_index()
 
+    fig1 = go.Figure()
+    fig1.add_trace(go.Bar(x=dfLB['Ano'],
+                        y=dfLB['% Lucro Bruto'],
+                        name='Porcetagem de Lucro Bruto',
+                        text=dfLB['% Lucro Bruto'].round(2),
+                        textposition='auto',
+                        insidetextfont=dict(family='Times', size=9)
+                        ))
+    fig1.update_layout(main_config,
+                       height=450,
+                       title='(%) Lucro Bruto',
+                       xaxis_title='(%) Lucro Bruto',
+                       yaxis_title='(%) Porcento',
+                       template=template_from_url(theme))
+    fig1.add_annotation(text='(% Lucro Bruto',
+                        xref='paper',
+                        yref='paper',
+                        font=dict(size=12, color='gray'),
+                        align='center',
+                        bgcolor='rgba(0,0,0,0.8)',
+                        x=0.50,
+                        y=0.99,
+                        showarrow=True)
+
+    return fig1
+
+'''
 @callback(
         Output(component_id='graph2', component_property='figure')
 )
@@ -182,8 +222,7 @@ def graph5():
 )
 def graph6():
     return
-
+'''
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
