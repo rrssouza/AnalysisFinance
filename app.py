@@ -2,9 +2,33 @@ from dash import Dash, html, Output, Input, callback, dcc
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 import plotly.express as px
-import pandas as ps
+import pandas as pd
 import numpy as np
 from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
+
+# dataset clean
+df = pd.read_excel('dre.xlsx')
+# pd.set_option('display.max_columns', None)
+# df.tail()
+# print(df)
+
+# dataset com algums indicadores financeiros criados
+df['% Lucro Bruto'] = df['Lucro bruto Total'] / df['Receita líquida']
+df['(Despesas) e \nReceitas Operacionais'] = df['(Despesas) e \nReceitas Operacionais'].abs()
+
+df['Ponto de Equilibrio R$'] = df['(Despesas) e \nReceitas Operacionais'] / df['% Lucro Bruto'].astype(float)
+
+df['% Ponto de Equilibrio'] = df['Ponto de Equilibrio R$'] / df['Receita Varejo'] * 100
+
+df['% Lucratividade'] = df['Lucro (prejuízo) antes do resultado financeiro'] / df['Receita líquida de mercadorias'] * 100
+df['% - Despesas e Receitas Operacionais'] = df['(Despesas) e \nReceitas Operacionais'] / df['Receita líquida'] * 100
+df['(%) Ebitda'] = df['EBITDA'] / df['Receita líquida'] * 100
+
+df['Receita líquida'] = df['Receita líquida'].astype(float)
+df['Ponto de Equilibrio R$'] = df['Ponto de Equilibrio R$'].astype(float)
+
+# print(df)
+
 
 # Variável de configuração tamanho do dbc.Card([])
 tab_card = {'height': '100%'}
@@ -162,3 +186,4 @@ def graph6():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
