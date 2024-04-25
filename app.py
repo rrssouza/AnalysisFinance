@@ -12,7 +12,7 @@ df = pd.read_excel('dre.xlsx')
 # df.tail()
 # print(df)
 
-# dataset com algums indicadores financeiros criados
+# dataset com algums indicadores financeiros
 df['% Lucro Bruto'] = df['Lucro bruto Total'] / df['Receita líquida']
 df['(Despesas) e \nReceitas Operacionais'] = df['(Despesas) e \nReceitas Operacionais'].abs()
 
@@ -30,22 +30,27 @@ df['Ponto de Equilibrio R$'] = df['Ponto de Equilibrio R$'].astype(float)
 # print(df)
 
 
-# Variável de configuração tamanho do dbc.Card([])
+#  variável configuração tamanho do dbc.Card([])
 tab_card = {'height': '100%'}
+
+#  variável configuração css
 dbc_css = ("https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates@V1.0.1/dbc.min.css")
+
+# variável - configuração de temas
 themes_options = [
-    {'label' : 'FLATLY', 'value' : dbc.themes.FLATLY},
-    {'label' : 'DARKLY', 'value' : dbc.themes.DARKLY},
-    {'label' : 'QUARTZ', 'value' : dbc.themes.QUARTZ}
+    {'label' : 'MATERIA', 'value' : dbc.themes.MATERIA},
+    {'label' : 'VAPOR', 'value' : dbc.themes.VAPOR},
+    {'label' : 'SPACELAB', 'value' : dbc.themes.SPACELAB},
+    {'label' : 'SUPERHERO', 'value' : dbc.themes.SUPERHERO}
     ]
 
 config_graph = {'displayModeBar': False, 'showTips': False}
 
-
+# configuração - layout dos gráficos
 main_config = {
-    "hovermode": "x unified",
+    "hovermode": "x unified", 
     "legend":{"yanchor": "top", 
-              "y": 0.8, "xanchor": "left", 
+              "y": 0.99, "xanchor": "left", 
               "x": 0.0,
               "title": {"text": None},
               "font": {"color": "white"},
@@ -70,7 +75,7 @@ app.layout = dbc.Container(children=[
                         ], sm=10, align='center', style={'border-radius': '10px'}), #'background-color': 'rgba(50, 72, 174, 0.75)'
 
                         dbc.Col([
-                            ThemeChangerAIO(aio_id='theme', radio_props={'value' : dbc.themes.QUARTZ, 'options': themes_options})
+                            ThemeChangerAIO(aio_id='theme', radio_props={'value' : dbc.themes.SPACELAB, 'options': themes_options})
 
                         ], sm=2)
                     ])
@@ -155,12 +160,48 @@ app.layout = dbc.Container(children=[
 
 ], fluid=True)
 
+
 @callback(
         Output(component_id='graph1', component_property='figure'),
         Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
 )
 def graph1(theme):
 
+    dfRP = df.groupby(['Ano','Receita líquida'])['Ponto de Equilibrio R$'].sum().reset_index()
+
+    fig2 = go.Figure()
+    fig2.add_trace(go.Bar(x=dfRP['Ano'],
+                          y=dfRP['Receita líquida'],
+                          name='Rec',
+                          text=dfRP['Receita líquida'].round(2),
+                          textposition='auto',
+                          insidetextfont=dict(family='Times', size=11)))
+
+    fig2.add_trace(go.Bar(x=dfRP['Ano'],
+                          y=dfRP['Ponto de Equilibrio R$'],
+                          name='P.Eq',
+                          text=dfRP['Ponto de Equilibrio R$'].round(2),
+                          textposition='auto',
+                          insidetextfont=dict(family='Times', size=11)))
+                     
+
+    fig2.update_layout(main_config,
+                       height=450,
+                       title='Receita Líquida x Ponto de Equilibrio',
+                       xaxis_title='Receita Liquida x Ponto de Equilibrio',
+                       yaxis_title='Valores de Receitas',
+                       barmode='group',
+                       template=template_from_url(theme))
+
+    return fig2
+
+
+@callback(
+        Output(component_id='graph2', component_property='figure'),
+        Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
+)
+def graph2(theme):
+    
     dfLB = df.groupby('Ano', sort=False)['% Lucro Bruto'].sum().reset_index()
 
     fig1 = go.Figure()
@@ -169,13 +210,13 @@ def graph1(theme):
                         name='Porcetagem de Lucro Bruto',
                         text=dfLB['% Lucro Bruto'].round(2),
                         textposition='auto',
-                        insidetextfont=dict(family='Times', size=9)
+                        insidetextfont=dict(family='Times', size=11)
                         ))
     fig1.update_layout(main_config,
                        height=450,
                        title='(%) Lucro Bruto',
                        xaxis_title='(%) Lucro Bruto',
-                       yaxis_title='(%) Porcento',
+                       yaxis_title='% Porcento',
                        template=template_from_url(theme))
     fig1.add_annotation(text='(% Lucro Bruto',
                         xref='paper',
@@ -185,25 +226,53 @@ def graph1(theme):
                         bgcolor='rgba(0,0,0,0.8)',
                         x=0.50,
                         y=0.99,
-                        showarrow=True)
-
+                        showarrow=False)
     return fig1
 
+
+    
+
+
+
+@callback(
+        Output(component_id='graph3', component_property='figure'),
+        Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
+)
+
+def graph3(theme):
+
+    dfDO = df.groupby('Ano')['% - Despesas e Receitas Operacionais'].sum().reset_index()
+
+    fig3 = go.Figure()
+    fig3.add_trace(go.Bar(x=dfDO['Ano'],
+                      y=dfDO['% - Despesas e Receitas Operacionais'],
+                      name='(%) Despesas e Receitas Operacionais',
+                      text=dfDO['% - Despesas e Receitas Operacionais'].round(1),
+                      textposition='auto',
+                      insidetextfont=dict(family='Times', size=11))
+                      )
+
+    fig3.update_layout(main_config,
+                        height=450,
+                        title='(%) Despesas e Receitas Operacionais',
+                       xaxis_title='(%) Despesas e Receitas Operacionais',
+                       yaxis_title=' % Porcento',
+                       template=template_from_url(theme)
+                       )
+    fig3.add_annotation(
+                        text='(%) Despesas Operacionais',
+                        xref='paper',
+                        yref='paper',
+                        font=dict(size=12, color='gray'),
+                        align='center',
+                        bgcolor='rgba(0,0,0,0.8)',
+                        x=0.50,
+                        y=0.99,
+                        showarrow=False)
+
+    return fig3
+
 '''
-@callback(
-        Output(component_id='graph2', component_property='figure')
-)
-def graph2():
-    return
-
-
-@callback(
-        Output(component_id='graph3', component_property='figure')
-)
-def graph3():
-    return
-
-
 @callback(
         Output(component_id='graph4', component_property='figure')
 )
