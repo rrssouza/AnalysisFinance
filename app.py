@@ -175,14 +175,14 @@ def graph1(theme):
                           name='Rec',
                           text=dfRP['Receita líquida'].round(2),
                           textposition='auto',
-                          insidetextfont=dict(family='Times', size=11)))
+                          insidetextfont=dict(family='Times', size=14)))
 
     fig2.add_trace(go.Bar(x=dfRP['Ano'],
                           y=dfRP['Ponto de Equilibrio R$'],
                           name='P.Eq',
                           text=dfRP['Ponto de Equilibrio R$'].round(2),
                           textposition='auto',
-                          insidetextfont=dict(family='Times', size=11)))
+                          insidetextfont=dict(family='Times', size=14)))
                      
 
     fig2.update_layout(main_config,
@@ -210,13 +210,13 @@ def graph2(theme):
                         name='Porcetagem de Lucro Bruto',
                         text=dfLB['% Lucro Bruto'].round(2),
                         textposition='auto',
-                        insidetextfont=dict(family='Times', size=11)
+                        insidetextfont=dict(family='Times', size=14)
                         ))
     fig1.update_layout(main_config,
                        height=450,
                        title='(%) Lucro Bruto',
                        xaxis_title='(%) Lucro Bruto',
-                       yaxis_title='% Porcento',
+                       yaxis_title='% Percentual',
                        template=template_from_url(theme))
     fig1.add_annotation(text='(% Lucro Bruto',
                         xref='paper',
@@ -249,14 +249,14 @@ def graph3(theme):
                       name='(%) Despesas e Receitas Operacionais',
                       text=dfDO['% - Despesas e Receitas Operacionais'].round(1),
                       textposition='auto',
-                      insidetextfont=dict(family='Times', size=11))
+                      insidetextfont=dict(family='Times', size=14))
                       )
 
     fig3.update_layout(main_config,
                         height=450,
                         title='(%) Despesas e Receitas Operacionais',
                        xaxis_title='(%) Despesas e Receitas Operacionais',
-                       yaxis_title=' % Porcento',
+                       yaxis_title=' % Percentual',
                        template=template_from_url(theme)
                        )
     fig3.add_annotation(
@@ -272,20 +272,82 @@ def graph3(theme):
 
     return fig3
 
+
+@callback(
+        Output(component_id='graph4', component_property='figure'),
+        Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
+)
+def graph4(theme):
+
+    dfLUC = df.groupby('Ano')['% Lucratividade'].sum().reset_index().round(1)
+
+    fig4 = go.Figure()
+    fig4.add_trace(go.Bar(x=dfLUC['Ano'],
+                      y=dfLUC['% Lucratividade'],
+                      name='% Lucratividade',
+                      text=dfLUC['% Lucratividade'].round(1),
+                      textposition='auto',
+                      insidetextfont=dict(family='Times', size=14)
+                     ))
+    fig4.update_layout(main_config,
+                       height=450,
+                    title='(%) Lucratividade',
+                    xaxis_title='(%) Lucratividade Ano',
+                    yaxis_title=' % Percentual',
+                    template=template_from_url(theme)
+                  )
+    fig4.add_annotation(text='% Lucratividade',
+                   xref='paper',
+                   yref='paper',
+                   font=dict(size=12, color='gray'),
+                   align='center',
+                   bgcolor='rgba(0,0,0,0.8)',
+                   x=0.50,
+                   y=0.99,
+                   showarrow=False
+                   )
+
+    return fig4
+
+
+@callback(
+        Output(component_id='graph5', component_property='figure'),
+        Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
+)
+def graph5(theme):
+
+    dfEBT = df.groupby('Ano')['(%) Ebitda'].sum().reset_index().round(1)
+
+    fig5 = go.Figure()
+    fig5.add_trace(go.Bar(x=dfEBT['Ano'],
+                        y=dfEBT['(%) Ebitda'],
+                        name='Ebitda',
+                        text=dfEBT['(%) Ebitda'].round(1),
+                        textposition='auto',
+                        insidetextfont=dict(family='Times', size=12)
+                        ))
+    fig5.update_layout(main_config,
+                       height=450,
+                       title='(%) Ebitda',
+                       xaxis_title='(%) Ebitda Ano',
+                       yaxis_title='% Percentual',
+                       template=template_from_url(theme)
+                       )
+
+    fig5.add_annotation(text='(%) Ebitda',
+                        xref='paper',
+                        yref='paper',
+                        font=dict(size=12, color='gray'),
+                        align='center',
+                        bgcolor='rgba(0,0,0,0.8)',
+                        x=0.50,
+                        y=0.99,
+                        showarrow=False
+                        )
+    return fig5
+
+    
 '''
-@callback(
-        Output(component_id='graph4', component_property='figure')
-)
-def graph4():
-    return
-
-
-@callback(
-        Output(component_id='graph5', component_property='figure')
-)
-def graph5():
-    return
-
 @callback(
         Output(component_id='graph6', component_property='figure')
 )
