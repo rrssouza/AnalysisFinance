@@ -33,6 +33,8 @@ df['Ponto de Equilibrio R$'] = df['Ponto de Equilibrio R$'].astype(float)
 #  variável configuração tamanho do dbc.Card([])
 tab_card = {'height': '100%'}
 
+tab_indicator = {'height': '100%'}
+
 #  variável configuração css
 dbc_css = ("https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates@V1.0.1/dbc.min.css")
 
@@ -61,9 +63,11 @@ main_config = {
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css])
 
+
+
 # layout do app
 app.layout = dbc.Container(children=[
-    # Row 1
+
     dbc.Row([
         dbc.Col([
             dbc.Card([
@@ -82,6 +86,77 @@ app.layout = dbc.Container(children=[
                 ])
             ], style=tab_card)
         ], sm=4, lg=12),
+    ], class_name='g-2 my-auto', style={'margin-top': '7px'}),
+
+
+    # Row 1 Indicators
+    dbc.Row([
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='graphA', config=config_graph)
+                        ])
+                    ], style=tab_indicator)
+                ])
+            ]),
+        ], sm=2, lg=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='graphB', config=config_graph)
+                        ])
+                    ], style=tab_indicator)
+                ])
+            ]),
+        ], sm=2, lg=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='graphC', config=config_graph)
+                        ])
+                    ], style=tab_indicator)
+                ])
+            ]),
+        ], sm=2, lg=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='graphD', config=config_graph)
+                        ])
+                    ], style=tab_indicator)
+                ])
+            ]),
+        ], sm=6, lg=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='graphE', config=config_graph)
+                        ])
+                    ], style=tab_indicator)
+                ])
+            ]),
+        ], sm=2, lg=2),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='graphF', config=config_graph)
+                        ])
+                    ], style=tab_indicator)
+                ])
+            ]),
+        ], sm=2, lg=2),
     ], class_name='g-2 my-auto', style={'margin-top': '7px'}),
 
     # Row 2
@@ -183,7 +258,7 @@ def graph1(theme):
                           text=dfRP['Ponto de Equilibrio R$'].round(2),
                           textposition='auto',
                           insidetextfont=dict(family='Times', size=14)))
-                     
+
 
     fig2.update_layout(main_config,
                        height=450,
@@ -212,12 +287,14 @@ def graph2(theme):
                         textposition='auto',
                         insidetextfont=dict(family='Times', size=14)
                         ))
+    
     fig1.update_layout(main_config,
                        height=450,
                        title='(%) Lucro Bruto',
                        xaxis_title='(%) Lucro Bruto',
                        yaxis_title='% Percentual',
                        template=template_from_url(theme))
+    
     fig1.add_annotation(text='(% Lucro Bruto',
                         xref='paper',
                         yref='paper',
@@ -227,11 +304,8 @@ def graph2(theme):
                         x=0.50,
                         y=0.99,
                         showarrow=False)
-    return fig1
-
-
     
-
+    return fig1
 
 
 @callback(
@@ -253,12 +327,13 @@ def graph3(theme):
                       )
 
     fig3.update_layout(main_config,
-                        height=450,
-                        title='(%) Despesas e Receitas Operacionais',
+                       height=450,
+                       title='(%) Despesas e Receitas Operacionais',
                        xaxis_title='(%) Despesas e Receitas Operacionais',
                        yaxis_title=' % Percentual',
                        template=template_from_url(theme)
                        )
+    
     fig3.add_annotation(
                         text='(%) Despesas Operacionais',
                         xref='paper',
@@ -283,29 +358,31 @@ def graph4(theme):
 
     fig4 = go.Figure()
     fig4.add_trace(go.Bar(x=dfLUC['Ano'],
-                      y=dfLUC['% Lucratividade'],
-                      name='% Lucratividade',
-                      text=dfLUC['% Lucratividade'].round(1),
-                      textposition='auto',
-                      insidetextfont=dict(family='Times', size=14)
-                     ))
+                          y=dfLUC['% Lucratividade'],
+                          name='% Lucratividade',
+                          text=dfLUC['% Lucratividade'].round(1),
+                          textposition='auto',
+                          insidetextfont=dict(family='Times', size=14)
+                          ))
+    
     fig4.update_layout(main_config,
                        height=450,
-                    title='(%) Lucratividade',
-                    xaxis_title='(%) Lucratividade Ano',
-                    yaxis_title=' % Percentual',
-                    template=template_from_url(theme)
-                  )
+                       title='(%) Lucratividade',
+                       xaxis_title='(%) Lucratividade Ano',
+                       yaxis_title=' % Percentual',
+                       template=template_from_url(theme)
+                       )
+    
     fig4.add_annotation(text='% Lucratividade',
-                   xref='paper',
-                   yref='paper',
-                   font=dict(size=12, color='gray'),
-                   align='center',
-                   bgcolor='rgba(0,0,0,0.8)',
-                   x=0.50,
-                   y=0.99,
-                   showarrow=False
-                   )
+                        xref='paper',
+                        yref='paper',
+                        font=dict(size=12, color='gray'),
+                        align='center',
+                        bgcolor='rgba(0,0,0,0.8)',
+                        x=0.50,
+                        y=0.99,
+                        showarrow=False
+                        )
 
     return fig4
 
@@ -320,12 +397,13 @@ def graph5(theme):
 
     fig5 = go.Figure()
     fig5.add_trace(go.Bar(x=dfEBT['Ano'],
-                        y=dfEBT['(%) Ebitda'],
-                        name='Ebitda',
-                        text=dfEBT['(%) Ebitda'].round(1),
-                        textposition='auto',
-                        insidetextfont=dict(family='Times', size=12)
-                        ))
+                          y=dfEBT['(%) Ebitda'],
+                          name='Ebitda',
+                          text=dfEBT['(%) Ebitda'].round(1),
+                          textposition='auto',
+                          insidetextfont=dict(family='Times', size=12)
+                          ))
+    
     fig5.update_layout(main_config,
                        height=450,
                        title='(%) Ebitda',
@@ -344,16 +422,60 @@ def graph5(theme):
                         y=0.99,
                         showarrow=False
                         )
+    
     return fig5
 
     
-'''
 @callback(
-        Output(component_id='graph6', component_property='figure')
+        Output(component_id='graphA', component_property='figure'),
+        Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
 )
-def graph6():
-    return
-'''
+def graphA(theme):
+
+    dfindicators = df.groupby('Ano')['Receita líquida'].sum().reset_index()
+
+    figA = go.Figure()
+    figA.add_trace(go.Indicator(mode='number',
+                                value=dfindicators['Receita líquida'].iloc[0],
+                                title={"text": f"<span style='font-size:100%'>{dfindicators['Ano'].iloc[0]}</span>"},
+                                number={'prefix': 'R$ '}
+                                ))
+    
+    figA.update_layout(main_config, height=100,
+                       template=template_from_url(theme)
+                       )
+    
+    figA.update_layout({"margin": {"l": 0, "r": 0, "t": 30, "b": 0}}
+                       )
+
+    return figA
+
+
+@callback(
+        Output(component_id='graphB', component_property='figure'),
+        Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
+)
+def graphB(theme):
+
+    dfindicators = df.groupby('Ano')['Receita líquida'].sum().reset_index()
+
+    figB = go.Figure()
+    figB.add_trace(
+    go.Indicator(mode='number',
+                 value=dfindicators['Receita líquida'].iloc[1],
+                 title={"text": f"<span style='font-size:100%'>{dfindicators['Ano'].iloc[1]}</span>"},
+                 number={'prefix': 'R$ '}
+                 ))
+    
+    figB.update_layout(main_config, height=100,
+                       template=template_from_url(theme)
+                       )
+    
+    figB.update_layout({"margin": {"l": 0, "r": 0, "t": 30, "b": 0}})
+
+    return figB
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
