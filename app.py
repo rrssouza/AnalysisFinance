@@ -14,18 +14,23 @@ df = pd.read_excel('dre.xlsx')
 
 # dataset com algums indicadores financeiros
 df['% Lucro Bruto'] = df['Lucro bruto Total'] / df['Receita líquida']
-df['(Despesas) e \nReceitas Operacionais'] = df['(Despesas) e \nReceitas Operacionais'].abs()
+df['(Despesas) e Receitas Operacionais'] = df['(Despesas) e \nReceitas Operacionais'].abs()
 
-df['Ponto de Equilibrio R$'] = df['(Despesas) e \nReceitas Operacionais'] / df['% Lucro Bruto'].astype(float)
+df['Ponto de Equilibrio R$'] = df['(Despesas) e Receitas Operacionais'] / df['% Lucro Bruto'].astype(float)
+
+df['% Lucro Bruto'] = df['% Lucro Bruto'] * 100
+df['% Lucro Bruto'] = df['% Lucro Bruto'].round(1)
 
 df['% Ponto de Equilibrio'] = df['Ponto de Equilibrio R$'] / df['Receita Varejo'] * 100
 
 df['% Lucratividade'] = df['Lucro (prejuízo) antes do resultado financeiro'] / df['Receita líquida de mercadorias'] * 100
-df['% - Despesas e Receitas Operacionais'] = df['(Despesas) e \nReceitas Operacionais'] / df['Receita líquida'] * 100
+df['% - Despesas e Receitas Operacionais'] = df['(Despesas) e Receitas Operacionais'] / df['Receita líquida'] * 100
 df['(%) Ebitda'] = df['EBITDA'] / df['Receita líquida'] * 100
 
 df['Receita líquida'] = df['Receita líquida'].astype(float)
 df['Ponto de Equilibrio R$'] = df['Ponto de Equilibrio R$'].astype(float)
+
+df['EBITDA Ajustada S/ Receita Líquida'] = df['Margem EBITDA \nAjustada sobre Receita Líquida Total'] * 100
 
 # print(df)
 
@@ -65,21 +70,21 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc_css])
 # layout do app
 app.layout = dbc.Container(children=[
 
-    # Row 1
+    # Row 1 Títulos
     dbc.Row([
         dbc.Col([
             dbc.Card([
                 dbc.CardBody([
                     dbc.Row([
                         dbc.Col([
-                            html.H1('Simple Analysis Financial (dre)', style={"text-align": "center", 'font-size': '400%'}) #'color': 'rgba(53, 61, 98, 0.75)'
+                            html.H1('Simple Analysis Financial (dre)', style={"text-align": "center", 'font-size': '250%'}) #'color': 'rgba(53, 61, 98, 0.75)'
 
-                        ], sm=10, align='center', style={'border-radius': '10px'}), #'background-color': 'rgba(50, 72, 174, 0.75)'
+                        ], sm=11, align='center', style={'border-radius': '10px'}), #'background-color': 'rgba(50, 72, 174, 0.75)'
 
                         dbc.Col([
                             ThemeChangerAIO(aio_id='theme', radio_props={'value' : dbc.themes.MATERIA, 'options': themes_options})
 
-                        ], sm=2)
+                        ], sm=1)
                     ])
                 ])
             ], style=tab_card)
@@ -156,7 +161,7 @@ app.layout = dbc.Container(children=[
         ], sm=2, lg=2),
     ], class_name='g-2 my-auto', style={'margin-top': '7px'}),
 
-    # Row 3
+    # Row 3 Gráficos
     dbc.Row([
         dbc.Col([
             dbc.Row([
@@ -168,7 +173,7 @@ app.layout = dbc.Container(children=[
                     ], style=tab_card)
                 ])
             ]),
-        ], sm=12, lg=4),
+        ], sm=6, lg=3),
         dbc.Col([
             dbc.Row([
                 dbc.Col([
@@ -179,7 +184,7 @@ app.layout = dbc.Container(children=[
                     ], style=tab_card)
                 ])
             ]),
-        ], sm=12, lg=4),
+        ], sm=6, lg=3),
         dbc.Col([
             dbc.Row([
                 dbc.Col([
@@ -190,10 +195,21 @@ app.layout = dbc.Container(children=[
                     ], style=tab_card)
                 ])
             ])
-        ], sm=12, lg=4),
+        ], sm=6, lg=3),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='graph3.1', config=config_graph)
+                        ])
+                    ], style=tab_card)
+                ])
+            ])
+        ], sm=6, lg=3),
     ], class_name='g-2 my-auto', style={'margin-top': '7px'}),
 
-    # Row 4
+    # Row 4 Gráficos
     dbc.Row([
         dbc.Col([
             dbc.Row([
@@ -230,7 +246,7 @@ app.layout = dbc.Container(children=[
         ], sm=12, lg=4),
     ], class_name='g-2 my-auto', style={'margin-top': '7px'}),
 
-], fluid=True)
+], fluid=True, class_name="dbc")
 
 
 @callback(
@@ -274,8 +290,7 @@ def graph1(theme):
 )
 def graph2(theme):
     
-    dfLB = df.groupby('Ano', sort=False)['% Lucro Bruto'].sum().reset_index() * 100
-    dfLB
+    dfLB = df.groupby('Ano', sort=False)['% Lucro Bruto'].sum().reset_index()
 
     fig1 = go.Figure()
     fig1.add_trace(go.Bar(x=dfLB['Ano'],
@@ -429,7 +444,6 @@ def graph5(theme):
 )
 def graph6(theme):
 
-    df['EBITDA Ajustada S/ Receita Líquida'] = df['Margem EBITDA \nAjustada sobre Receita Líquida Total'] * 100
     dfEBTAJ = df.groupby('Ano')['EBITDA Ajustada S/ Receita Líquida'].sum().reset_index().round(1)
 
     fig6 = go.Figure()
@@ -446,7 +460,7 @@ def graph6(theme):
                        #xaxis_title='EBITDA Ajustada S/ Receita Líquida',
                        yaxis_title='% Percentual',
                        template=template_from_url(theme)
-                  )
+                       )
 
     fig6.add_annotation(text='EBITDA Ajustada S/ Receita Líquida',
                         xref='paper',
@@ -473,11 +487,11 @@ def graphA(theme):
     figA = go.Figure()
     figA.add_trace(go.Indicator(mode='number',
                                 value=dfindicators['Receita líquida'].iloc[0],
-                                title={"text": f"<span style='font-size:100%'>{dfindicators['Ano'].iloc[0]}</span><br><span style='font-size:100%'>Receita Líquida</span>"},
+                                title={"text": f"<span style='font-size:90%'>{dfindicators['Ano'].iloc[0]}</span><br><span style='font-size:90%'>Receita Líquida</span>"},
                                 number={'prefix': 'R$ '}
                                 ))
     
-    figA.update_layout(main_config, height=100,
+    figA.update_layout(main_config, height=90,
                        template=template_from_url(theme)
                        )
     
@@ -499,11 +513,11 @@ def graphB(theme):
     figB.add_trace(
     go.Indicator(mode='number',
                  value=dfindicators['Receita líquida'].iloc[1],
-                 title={"text": f"<span style='font-size:100%'>{dfindicators['Ano'].iloc[1]}</span><br><span style='font-size:100%'>Receita Líquida</span>"},
+                 title={"text": f"<span style='font-size:90%'>{dfindicators['Ano'].iloc[1]}</span><br><span style='font-size:90%'>Receita Líquida</span>"},
                  number={'prefix': 'R$ '}
                  ))
     
-    figB.update_layout(main_config, height=100,
+    figB.update_layout(main_config, height=90,
                        template=template_from_url(theme)
                        )
     
@@ -524,11 +538,11 @@ def graphC(theme):
     figC.add_trace(
     go.Indicator(mode='number',
                  value=dfindicators['Receita líquida'].iloc[2],
-                 title={"text": f"<span style='font-size:100%'>{dfindicators['Ano'].iloc[2]}</span><br><span style='font-size:100%'>Receita Líquida</span>"},
+                 title={"text": f"<span style='font-size:90%'>{dfindicators['Ano'].iloc[2]}</span><br><span style='font-size:90%'>Receita Líquida</span>"},
                  number={'prefix': 'R$ '}
                  ))
     
-    figC.update_layout(main_config, height=100,
+    figC.update_layout(main_config, height=90,
                        template=template_from_url(theme)
                        )
     
@@ -549,11 +563,11 @@ def graphD(theme):
     figD.add_trace(
     go.Indicator(mode='number',
                  value=dfindicators['Receita líquida'].iloc[3],
-                 title={"text": f"<span style='font-size:100%'>{dfindicators['Ano'].iloc[3]}</span><br><span style='font-size:100%'>Receita Líquida</span>"},
+                 title={"text": f"<span style='font-size:90%'>{dfindicators['Ano'].iloc[3]}</span><br><span style='font-size:90%'>Receita Líquida</span>"},
                  number={'prefix': 'R$ '}
                  ))
     
-    figD.update_layout(main_config, height=100,
+    figD.update_layout(main_config, height=90,
                        template=template_from_url(theme)
                        )
     
@@ -574,11 +588,11 @@ def graphE(theme):
     figE.add_trace(
     go.Indicator(mode='number',
                  value=dfindicators['Receita líquida'].iloc[4],
-                 title={"text": f"<span style='font-size:100%'>{dfindicators['Ano'].iloc[4]}</span><br><span style='font-size:100%'>Receita Líquida</span>"},
+                 title={"text": f"<span style='font-size:90%'>{dfindicators['Ano'].iloc[4]}</span><br><span style='font-size:90%'>Receita Líquida</span>"},
                  number={'prefix': 'R$ '}
                  ))
     
-    figE.update_layout(main_config, height=100,
+    figE.update_layout(main_config, height=90,
                        template=template_from_url(theme)
                        )
     
@@ -600,11 +614,11 @@ def graphF(theme):
     figF.add_trace(
     go.Indicator(mode='number',
                  value=dfindicators['Receita líquida'].iloc[5],
-                 title={"text": f"<span style='font-size:100%'>{dfindicators['Ano'].iloc[5]}</span><br><span style='font-size:100%'>Receita Líquida</span>"},
+                 title={"text": f"<span style='font-size:90%'>{dfindicators['Ano'].iloc[5]}</span><br><span style='font-size:90%'>Receita Líquida</span>"},
                  number={'prefix': 'R$ '}
                  ))
     
-    figF.update_layout(main_config, height=100,
+    figF.update_layout(main_config, height=90,
                        template=template_from_url(theme)
                        )
     
