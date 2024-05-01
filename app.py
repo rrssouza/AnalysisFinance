@@ -7,7 +7,7 @@ import numpy as np
 from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
 
 # dataset clean
-df = pd.read_excel('dre.xlsx')
+df = pd.read_excel('datasets/dre.xlsx')
 # pd.set_option('display.max_columns', None)
 # df.tail()
 # print(df)
