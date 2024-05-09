@@ -6,11 +6,16 @@ import pandas as pd
 import numpy as np
 from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
 
-# dataset clean
+# dataset's
+
 df = pd.read_excel('datasets/dre.xlsx')
 # pd.set_option('display.max_columns', None)
 # df.tail()
 # print(df)
+
+# dfcapex = pd.read_excel('datasets/drecapex.xlsx', usecols=['Investimentos (R$ Milhões)', '2018', '2019', '2020', '2021', '2022', '2023'])
+
+
 
 # dataset com algums indicadores financeiros
 df['% Lucro Bruto'] = df['Lucro bruto Total'] / df['Receita líquida']
@@ -201,7 +206,7 @@ app.layout = dbc.Container(children=[
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            dcc.Graph(id='graph3.1', config=config_graph)
+                            dcc.Graph(id='graph7', config=config_graph)
                         ])
                     ], style=tab_card)
                 ])
@@ -475,6 +480,56 @@ def graph6(theme):
 
 
     return fig6
+
+
+@callback(
+        Output(component_id='graph7', component_property='figure'),
+        Input(ThemeChangerAIO.ids.radio('theme'), component_property='value')
+)
+def graph7(theme):
+
+    dfcapex = pd.read_excel('datasets/drecapex.xlsx', usecols=['Investimentos (R$ Milhões)', '2018', '2019', '2020', '2021', '2022', '2023'])
+
+    dfcapex.rename(columns={0: 'Investimentos (R$ Milhões)', 1: '2018', 2: '2019', 3: '2020', 4:'2021', 5:'2022', 6:'2023'}, inplace=True)
+
+    dfcapex.T.reset_index()
+
+    dfcapex.rename(columns={'index': 'Ano', 0: 'Novas Lojas' , 1: 'Reformas e Remodelagens', 2: 'Cadeia de Suprimentos', 3: 'Digital e Tecnologia'}, inplace=True)
+
+    dfcapex.drop(0, axis=0)
+
+
+    fig7 = go.Figure()
+    fig7.add_trace(go.Scatter(x=dfcapex['Ano'],
+                              y=dfcapex['Novas Lojas'],
+                              name='Nova Lojas',
+                              text=dfcapex['Novas Lojas'],
+                              textposition='top center',
+                              textfont=dict(family='Times', size=9)
+                      ))
+    fig7.add_trace(go.Scatter(x=dfcapex['Ano'],
+                              y=dfcapex['Reformas e Remodelagens'],
+                              name='Reformas e Remodelagens'
+                      ))
+    fig7.add_trace(go.Scatter(x=dfcapex['Ano'],
+                              y=dfcapex['Cadeia de Suprimentos'],
+                              name='Cadeia de Suprimentos'
+                      ))
+    fig7.add_trace(go.Scatter(x=dfcapex['Ano'],
+                              y=dfcapex['Digital e Tecnologia'],
+                              name='Digital e Tecnologia'
+                      ))
+    fig7.update_layout(main_config,
+                       height=450,
+                       title='CAPEX',
+                       xaxis_title='CAPEX',
+                       yaxis_title='Valores',
+                       template=template_from_url(theme)
+                    )
+    return fig7
+
+
+
     
 @callback(
         Output(component_id='graphA', component_property='figure'),
