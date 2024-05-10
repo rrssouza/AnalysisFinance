@@ -16,7 +16,6 @@ df = pd.read_excel('datasets/dre.xlsx')
 # dfcapex = pd.read_excel('datasets/drecapex.xlsx', usecols=['Investimentos (R$ Milhões)', '2018', '2019', '2020', '2021', '2022', '2023'])
 
 
-
 # dataset com algums indicadores financeiros
 df['% Lucro Bruto'] = df['Lucro bruto Total'] / df['Receita líquida']
 df['(Despesas) e Receitas Operacionais'] = df['(Despesas) e \nReceitas Operacionais'].abs()
@@ -346,7 +345,7 @@ def graph3(theme):
     fig3.update_layout(main_config,
                        height=450,
                        title='(%) Despesas e Receitas Operacionais',
-                       xaxis_title='(%) Despesas e Receitas Operacionais',
+                       # xaxis_title='(%) Despesas e Receitas Operacionais',
                        yaxis_title=' % Percentual',
                        template=template_from_url(theme)
                        )
@@ -385,7 +384,7 @@ def graph4(theme):
     fig4.update_layout(main_config,
                        height=450,
                        title='(%) Lucratividade',
-                       xaxis_title='(%) Lucratividade Ano',
+                       # xaxis_title='(%) Lucratividade Ano',
                        yaxis_title=' % Percentual',
                        template=template_from_url(theme)
                        )
@@ -424,7 +423,7 @@ def graph5(theme):
     fig5.update_layout(main_config,
                        height=450,
                        title='(%) Ebitda',
-                       xaxis_title='(%) Ebitda Ano',
+                       # xaxis_title='(%) Ebitda Ano',
                        yaxis_title='% Percentual',
                        template=template_from_url(theme)
                        )
@@ -492,43 +491,39 @@ def graph7(theme):
 
     dfcapex.rename(columns={0: 'Investimentos (R$ Milhões)', 1: '2018', 2: '2019', 3: '2020', 4:'2021', 5:'2022', 6:'2023'}, inplace=True)
 
-    dfcapex.T.reset_index()
+    dfcapexA = dfcapex.T.reset_index()
+    print(dfcapexA)
 
-    dfcapex.rename(columns={'index': 'Ano', 0: 'Novas Lojas' , 1: 'Reformas e Remodelagens', 2: 'Cadeia de Suprimentos', 3: 'Digital e Tecnologia'}, inplace=True)
-
-    dfcapex.drop(0, axis=0)
-
+    dfcapexA.rename(columns={'index': 'Ano', 0: 'Novas Lojas' , 1: 'Reformas e Remodelagens', 2: 'Cadeia de Suprimentos', 3: 'Digital e Tecnologia'}, inplace=True)
 
     fig7 = go.Figure()
-    fig7.add_trace(go.Scatter(x=dfcapex['Ano'],
-                              y=dfcapex['Novas Lojas'],
+    fig7.add_trace(go.Scatter(x=dfcapexA['Ano'],
+                              y=dfcapexA['Novas Lojas'],
                               name='Nova Lojas',
-                              text=dfcapex['Novas Lojas'],
+                              text=dfcapexA['Novas Lojas'],
                               textposition='top center',
                               textfont=dict(family='Times', size=9)
                       ))
-    fig7.add_trace(go.Scatter(x=dfcapex['Ano'],
-                              y=dfcapex['Reformas e Remodelagens'],
+    fig7.add_trace(go.Scatter(x=dfcapexA['Ano'],
+                              y=dfcapexA['Reformas e Remodelagens'],
                               name='Reformas e Remodelagens'
                       ))
-    fig7.add_trace(go.Scatter(x=dfcapex['Ano'],
-                              y=dfcapex['Cadeia de Suprimentos'],
+    fig7.add_trace(go.Scatter(x=dfcapexA['Ano'],
+                              y=dfcapexA['Cadeia de Suprimentos'],
                               name='Cadeia de Suprimentos'
                       ))
-    fig7.add_trace(go.Scatter(x=dfcapex['Ano'],
-                              y=dfcapex['Digital e Tecnologia'],
+    fig7.add_trace(go.Scatter(x=dfcapexA['Ano'],
+                              y=dfcapexA['Digital e Tecnologia'],
                               name='Digital e Tecnologia'
                       ))
     fig7.update_layout(main_config,
                        height=450,
                        title='CAPEX',
-                       xaxis_title='CAPEX',
+                       # xaxis_title='CAPEX',
                        yaxis_title='Valores',
                        template=template_from_url(theme)
                     )
     return fig7
-
-
 
     
 @callback(
