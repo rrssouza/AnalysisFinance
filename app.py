@@ -51,7 +51,8 @@ dbc_css = ("https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates@V1.0.
 # variável - configuração de temas
 themes_options = [
     {'label' : 'MATERIA', 'value' : dbc.themes.MATERIA},
-    {'label' : 'VAPOR', 'value' : dbc.themes.VAPOR}
+    {'label' : 'VAPOR', 'value' : dbc.themes.VAPOR},
+    {'label' : 'QUARTZ', 'value' : dbc.themes.QUARTZ}
     ]
 
 config_graph = {'displayModeBar': False, 'showTips': False}
@@ -81,7 +82,7 @@ app.layout = dbc.Container(children=[
                 dbc.CardBody([
                     dbc.Row([
                         dbc.Col([
-                            html.H1('Simple Analysis Financial (dre)', style={"text-align": "center", 'font-size': '250%'}) #'color': 'rgba(53, 61, 98, 0.75)'
+                            html.H1('Year Financial Analysis (dre)', style={"text-align": "center", 'font-size': '250%'}) #'color': 'rgba(53, 61, 98, 0.75)'
 
                         ], sm=11, align='center', style={'border-radius': '10px'}), #'background-color': 'rgba(50, 72, 174, 0.75)'
 
@@ -267,18 +268,19 @@ def graph1(theme):
                           name='Rec',
                           text=dfRP['Receita líquida'].round(2),
                           textposition='auto',
-                          insidetextfont=dict(family='Times', size=14)))
+                          insidetextfont=dict(family='Times', size=10)))
 
     fig2.add_trace(go.Bar(x=dfRP['Ano'],
                           y=dfRP['Ponto de Equilibrio R$'],
                           name='P.Eq',
-                          text=dfRP['Ponto de Equilibrio R$'].round(2),
-                          textposition='auto',
-                          insidetextfont=dict(family='Times', size=14)))
+                          # text=dfRP['Ponto de Equilibrio R$'].round(2),
+                          # textposition='auto',
+                          # insidetextfont=dict(family='Times', size=14)
+                          ))
 
 
     fig2.update_layout(main_config,
-                       height=450,
+                       height=400,
                        title='Receita Líquida x Ponto de Equilibrio',
                        #xaxis_title='Receita Liquida x Ponto de Equilibrio',
                        yaxis_title='Valores de Receitas',
@@ -306,21 +308,21 @@ def graph2(theme):
                         ))
     
     fig1.update_layout(main_config,
-                       height=450,
+                       height=400,
                        title='(%) Lucro Bruto',
                        # xaxis_title='(%) Lucro Bruto',
                        yaxis_title='% Percentual',
                        template=template_from_url(theme))
     
-    fig1.add_annotation(text='(% Lucro Bruto',
-                        xref='paper',
-                        yref='paper',
-                        font=dict(size=12, color='gray'),
-                        align='center',
-                        bgcolor='rgba(0,0,0,0.8)',
-                        x=0.50,
-                        y=0.99,
-                        showarrow=False)
+    #fig1.add_annotation(text='(% Lucro Bruto',
+                        #xref='paper',
+                        #yref='paper',
+                        #font=dict(size=12, color='gray'),
+                        #align='center',
+                        #bgcolor='rgba(0,0,0,0.8)',
+                        #x=0.50,
+                        #y=0.99,
+                        #showarrow=False)
     
     return fig1
 
@@ -343,23 +345,22 @@ def graph3(theme):
                       )
 
     fig3.update_layout(main_config,
-                       height=450,
+                       height=400,
                        title='(%) Despesas e Receitas Operacionais',
                        # xaxis_title='(%) Despesas e Receitas Operacionais',
                        yaxis_title=' % Percentual',
                        template=template_from_url(theme)
                        )
     
-    fig3.add_annotation(
-                        text='(%) Despesas Operacionais',
-                        xref='paper',
-                        yref='paper',
-                        font=dict(size=12, color='gray'),
-                        align='center',
-                        bgcolor='rgba(0,0,0,0.8)',
-                        x=0.50,
-                        y=0.99,
-                        showarrow=False)
+    #fig3.add_annotation(text='(%) Despesas Operacionais',
+                        #xref='paper',
+                        #yref='paper',
+                        #font=dict(size=12, color='gray'),
+                        #align='center',
+                        #bgcolor='rgba(0,0,0,0.8)',
+                        #x=0.50,
+                        #y=0.99,
+                        #showarrow=False)
 
     return fig3
 
@@ -382,23 +383,22 @@ def graph4(theme):
                           ))
     
     fig4.update_layout(main_config,
-                       height=450,
+                       height=400,
                        title='(%) Lucratividade',
                        # xaxis_title='(%) Lucratividade Ano',
                        yaxis_title=' % Percentual',
                        template=template_from_url(theme)
                        )
     
-    fig4.add_annotation(text='% Lucratividade',
-                        xref='paper',
-                        yref='paper',
-                        font=dict(size=12, color='gray'),
-                        align='center',
-                        bgcolor='rgba(0,0,0,0.8)',
-                        x=0.50,
-                        y=0.99,
-                        showarrow=False
-                        )
+    #fig4.add_annotation(text='% Lucratividade',
+                        #xref='paper',
+                        #yref='paper',
+                        #font=dict(size=12, color='gray'),
+                        #align='center',
+                        #bgcolor='rgba(0,0,0,0.8)',
+                        #x=0.50,
+                        #y=0.99,
+                        #showarrow=False)
 
     return fig4
 
@@ -421,23 +421,22 @@ def graph5(theme):
                           ))
     
     fig5.update_layout(main_config,
-                       height=450,
+                       height=400,
                        title='(%) Ebitda',
                        # xaxis_title='(%) Ebitda Ano',
                        yaxis_title='% Percentual',
                        template=template_from_url(theme)
                        )
 
-    fig5.add_annotation(text='(%) Ebitda',
-                        xref='paper',
-                        yref='paper',
-                        font=dict(size=12, color='gray'),
-                        align='center',
-                        bgcolor='rgba(0,0,0,0.8)',
-                        x=0.50,
-                        y=0.99,
-                        showarrow=False
-                        )
+    #fig5.add_annotation(text='(%) Ebitda',
+                        #xref='paper',
+                        #yref='paper',
+                        #font=dict(size=12, color='gray'),
+                        #align='center',
+                        #bgcolor='rgba(0,0,0,0.8)',
+                        #x=0.50,
+                        #y=0.99,
+                        #showarrow=False)
     
     return fig5
 
@@ -452,31 +451,30 @@ def graph6(theme):
 
     fig6 = go.Figure()
     fig6.add_trace(go.Bar(x=dfEBTAJ['Ano'],
-                      y=dfEBTAJ['EBITDA Ajustada S/ Receita Líquida'],
-                      name='Ebitda Ajustado S/ Receita Líquida',
-                      text=dfEBTAJ['EBITDA Ajustada S/ Receita Líquida'].round(1),
-                      textposition='auto',
-                      insidetextfont=dict(family='Times', size=12)
-                     ))
+                          y=dfEBTAJ['EBITDA Ajustada S/ Receita Líquida'],
+                          name='Ebitda Ajustado S/ Receita Líquida',
+                          text=dfEBTAJ['EBITDA Ajustada S/ Receita Líquida'].round(1),
+                          textposition='auto',
+                          insidetextfont=dict(family='Times', size=12)
+                        ))
+    
     fig6.update_layout(main_config,
-                       height=450,
-                       title='EBITDA Ajustada S/ Receita Líquida',
+                       height=400,
+                       title='(%) EBITDA Ajustada S/ Receita Líquida',
                        #xaxis_title='EBITDA Ajustada S/ Receita Líquida',
                        yaxis_title='% Percentual',
                        template=template_from_url(theme)
                        )
 
-    fig6.add_annotation(text='EBITDA Ajustada S/ Receita Líquida',
-                        xref='paper',
-                        yref='paper',
-                        font=dict(size=12, color='gray'),
-                        align='center',
-                        bgcolor='rgba(0,0,0,0.8)',
-                        x=0.50,
-                        y=0.99,
-                        showarrow=False
-                       )
-
+    #fig6.add_annotation(text='EBITDA Ajustada S/ Receita Líquida',
+                        #xref='paper',
+                        #yref='paper',
+                        #font=dict(size=12, color='gray'),
+                        #align='center',
+                        #bgcolor='rgba(0,0,0,0.8)',
+                        #x=0.50,
+                        #y=0.99,
+                        #showarrow=False)
 
     return fig6
 
@@ -492,9 +490,11 @@ def graph7(theme):
     dfcapex.rename(columns={0: 'Investimentos (R$ Milhões)', 1: '2018', 2: '2019', 3: '2020', 4:'2021', 5:'2022', 6:'2023'}, inplace=True)
 
     dfcapexA = dfcapex.T.reset_index()
-    print(dfcapexA)
+
 
     dfcapexA.rename(columns={'index': 'Ano', 0: 'Novas Lojas' , 1: 'Reformas e Remodelagens', 2: 'Cadeia de Suprimentos', 3: 'Digital e Tecnologia'}, inplace=True)
+    dfcapexA = dfcapexA.drop(0, axis=0)
+
 
     fig7 = go.Figure()
     fig7.add_trace(go.Scatter(x=dfcapexA['Ano'],
@@ -517,9 +517,9 @@ def graph7(theme):
                               name='Digital e Tecnologia'
                       ))
     fig7.update_layout(main_config,
-                       height=450,
+                       height=400,
                        title='CAPEX',
-                       # xaxis_title='CAPEX',
+                       #xaxis_title='CAPEX',
                        yaxis_title='Valores',
                        template=template_from_url(theme)
                     )
@@ -541,7 +541,7 @@ def graphA(theme):
                                 number={'prefix': 'R$ '}
                                 ))
     
-    figA.update_layout(main_config, height=90,
+    figA.update_layout(main_config, height=85,
                        template=template_from_url(theme)
                        )
     
@@ -567,7 +567,7 @@ def graphB(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figB.update_layout(main_config, height=90,
+    figB.update_layout(main_config, height=85,
                        template=template_from_url(theme)
                        )
     
@@ -592,7 +592,7 @@ def graphC(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figC.update_layout(main_config, height=90,
+    figC.update_layout(main_config, height=85,
                        template=template_from_url(theme)
                        )
     
@@ -617,7 +617,7 @@ def graphD(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figD.update_layout(main_config, height=90,
+    figD.update_layout(main_config, height=85,
                        template=template_from_url(theme)
                        )
     
@@ -642,7 +642,7 @@ def graphE(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figE.update_layout(main_config, height=90,
+    figE.update_layout(main_config, height=85,
                        template=template_from_url(theme)
                        )
     
@@ -668,7 +668,7 @@ def graphF(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figF.update_layout(main_config, height=90,
+    figF.update_layout(main_config, height=85,
                        template=template_from_url(theme)
                        )
     
