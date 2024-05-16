@@ -2,6 +2,7 @@ from dash import Dash, html, Output, Input, callback, dcc, State
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
 import plotly.express as px
+from plotly.subplots import make_subplots # add nos propriedades de layout aos gráficos
 import pandas as pd
 import numpy as np
 from dash_bootstrap_templates import ThemeChangerAIO, template_from_url
@@ -206,27 +207,16 @@ app.layout = dbc.Container(children=[
                 dbc.Col([
                     dbc.Card([
                         dbc.CardBody([
-                            dcc.Graph(id='graph7', config=config_graph)
-                        ])
-                    ], style=tab_card)
-                ])
-            ])
-        ], sm=6, lg=3),
-    ], class_name='g-2 my-auto', style={'margin-top': '7px'}),
-
-    # Row 4 Gráficos
-    dbc.Row([
-        dbc.Col([
-            dbc.Row([
-                dbc.Col([
-                    dbc.Card([
-                        dbc.CardBody([
                             dcc.Graph(id='graph4', config=config_graph)
                         ])
                     ], style=tab_card)
                 ])
             ]),
-        ], sm=12, lg=4),
+        ], sm=12, lg=3),
+    ], class_name='g-2 my-auto', style={'margin-top': '7px'}),
+
+    # Row 4 Gráficos
+    dbc.Row([
         dbc.Col([
             dbc.Row([
                 dbc.Col([
@@ -249,6 +239,17 @@ app.layout = dbc.Container(children=[
                 ])
             ])
         ], sm=12, lg=4),
+        dbc.Col([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Card([
+                        dbc.CardBody([
+                            dcc.Graph(id='graph7', config=config_graph)
+                        ])
+                    ], style=tab_card)
+                ])
+            ])
+        ], sm=6, lg=4),
     ], class_name='g-2 my-auto', style={'margin-top': '7px'}),
 
 ], fluid=True, class_name="dbc")
@@ -267,11 +268,14 @@ def graph1(theme):
                           y=dfRP['Receita líquida'],
                           name='Rec',
                           text=dfRP['Receita líquida'].round(2),
+                          width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+                          marker=dict(cornerradius="14%"),
                           textposition='auto',
                           insidetextfont=dict(family='Times', size=10)))
 
     fig2.add_trace(go.Bar(x=dfRP['Ano'],
                           y=dfRP['Ponto de Equilibrio R$'],
+                          marker=dict(cornerradius="14%"),
                           name='P.Eq',
                           # text=dfRP['Ponto de Equilibrio R$'].round(2),
                           # textposition='auto',
@@ -280,7 +284,7 @@ def graph1(theme):
 
 
     fig2.update_layout(main_config,
-                       height=400,
+                       height=350,
                        title='Receita Líquida x Ponto de Equilibrio',
                        #xaxis_title='Receita Liquida x Ponto de Equilibrio',
                        yaxis_title='Valores de Receitas',
@@ -303,12 +307,14 @@ def graph2(theme):
                         y=dfLB['% Lucro Bruto'],
                         name='Porcetagem de Lucro Bruto',
                         text=dfLB['% Lucro Bruto'].round(2),
+                        width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+                        marker=dict(cornerradius="14%"),
                         textposition='auto',
                         insidetextfont=dict(family='Times', size=14)
                         ))
     
     fig1.update_layout(main_config,
-                       height=400,
+                       height=350,
                        title='(%) Lucro Bruto',
                        # xaxis_title='(%) Lucro Bruto',
                        yaxis_title='% Percentual',
@@ -340,12 +346,14 @@ def graph3(theme):
                       y=dfDO['% - Despesas e Receitas Operacionais'],
                       name='(%) Despesas e Receitas Operacionais',
                       text=dfDO['% - Despesas e Receitas Operacionais'].round(1),
+                      width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+                      marker=dict(cornerradius="14%"),
                       textposition='auto',
                       insidetextfont=dict(family='Times', size=14))
                       )
 
     fig3.update_layout(main_config,
-                       height=400,
+                       height=350,
                        title='(%) Despesas e Receitas Operacionais',
                        # xaxis_title='(%) Despesas e Receitas Operacionais',
                        yaxis_title=' % Percentual',
@@ -378,12 +386,14 @@ def graph4(theme):
                           y=dfLUC['% Lucratividade'],
                           name='% Lucratividade',
                           text=dfLUC['% Lucratividade'].round(1),
+                          width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+                          marker=dict(cornerradius="14%"),
                           textposition='auto',
                           insidetextfont=dict(family='Times', size=14)
                           ))
     
     fig4.update_layout(main_config,
-                       height=400,
+                       height=350,
                        title='(%) Lucratividade',
                        # xaxis_title='(%) Lucratividade Ano',
                        yaxis_title=' % Percentual',
@@ -416,6 +426,8 @@ def graph5(theme):
                           y=dfEBT['(%) Ebitda'],
                           name='Ebitda',
                           text=dfEBT['(%) Ebitda'].round(1),
+                          width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+                          marker=dict(cornerradius="14%"),
                           textposition='auto',
                           insidetextfont=dict(family='Times', size=12)
                           ))
@@ -454,6 +466,8 @@ def graph6(theme):
                           y=dfEBTAJ['EBITDA Ajustada S/ Receita Líquida'],
                           name='Ebitda Ajustado S/ Receita Líquida',
                           text=dfEBTAJ['EBITDA Ajustada S/ Receita Líquida'].round(1),
+                          width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+                          marker=dict(cornerradius="14%"),
                           textposition='auto',
                           insidetextfont=dict(family='Times', size=12)
                         ))
