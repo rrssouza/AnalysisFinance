@@ -83,7 +83,7 @@ app.layout = dbc.Container(children=[
                 dbc.CardBody([
                     dbc.Row([
                         dbc.Col([
-                            html.H1('Year Financial Analysis (dre)', style={"text-align": "center", 'font-size': '250%'}) #'color': 'rgba(53, 61, 98, 0.75)'
+                            html.H1('Year Financial Analysis (dre)', style={"text-align": "center", 'font-size': '200%'}) #'color': 'rgba(53, 61, 98, 0.75)'
 
                         ], sm=11, align='center', style={'border-radius': '10px'}), #'background-color': 'rgba(50, 72, 174, 0.75)'
 
@@ -284,7 +284,7 @@ def graph1(theme):
 
 
     fig2.update_layout(main_config,
-                       height=350,
+                       height=250,
                        title='Receita Líquida x Ponto de Equilibrio',
                        #xaxis_title='Receita Liquida x Ponto de Equilibrio',
                        yaxis_title='Valores de Receitas',
@@ -310,11 +310,11 @@ def graph2(theme):
                         width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
                         marker=dict(cornerradius="14%"),
                         textposition='auto',
-                        insidetextfont=dict(family='Times', size=14)
+                        insidetextfont=dict(family='Times', size=10)
                         ))
     
     fig1.update_layout(main_config,
-                       height=350,
+                       height=250,
                        title='(%) Lucro Bruto',
                        # xaxis_title='(%) Lucro Bruto',
                        yaxis_title='% Percentual',
@@ -349,11 +349,11 @@ def graph3(theme):
                       width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
                       marker=dict(cornerradius="14%"),
                       textposition='auto',
-                      insidetextfont=dict(family='Times', size=14))
+                      insidetextfont=dict(family='Times', size=10))
                       )
 
     fig3.update_layout(main_config,
-                       height=350,
+                       height=250,
                        title='(%) Despesas e Receitas Operacionais',
                        # xaxis_title='(%) Despesas e Receitas Operacionais',
                        yaxis_title=' % Percentual',
@@ -389,11 +389,11 @@ def graph4(theme):
                           width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
                           marker=dict(cornerradius="14%"),
                           textposition='auto',
-                          insidetextfont=dict(family='Times', size=14)
+                          insidetextfont=dict(family='Times', size=10)
                           ))
     
     fig4.update_layout(main_config,
-                       height=350,
+                       height=250,
                        title='(%) Lucratividade',
                        # xaxis_title='(%) Lucratividade Ano',
                        yaxis_title=' % Percentual',
@@ -429,11 +429,11 @@ def graph5(theme):
                           width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
                           marker=dict(cornerradius="14%"),
                           textposition='auto',
-                          insidetextfont=dict(family='Times', size=12)
+                          insidetextfont=dict(family='Times', size=10)
                           ))
     
     fig5.update_layout(main_config,
-                       height=400,
+                       height=250,
                        title='(%) Ebitda',
                        # xaxis_title='(%) Ebitda Ano',
                        yaxis_title='% Percentual',
@@ -469,11 +469,11 @@ def graph6(theme):
                           width=[0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
                           marker=dict(cornerradius="14%"),
                           textposition='auto',
-                          insidetextfont=dict(family='Times', size=12)
+                          insidetextfont=dict(family='Times', size=10)
                         ))
     
     fig6.update_layout(main_config,
-                       height=400,
+                       height=250,
                        title='(%) EBITDA Ajustada S/ Receita Líquida',
                        #xaxis_title='EBITDA Ajustada S/ Receita Líquida',
                        yaxis_title='% Percentual',
@@ -516,7 +516,7 @@ def graph7(theme):
                               name='Nova Lojas',
                               text=dfcapexA['Novas Lojas'],
                               textposition='top center',
-                              textfont=dict(family='Times', size=9)
+                              textfont=dict(family='Times', size=10)
                       ))
     fig7.add_trace(go.Scatter(x=dfcapexA['Ano'],
                               y=dfcapexA['Reformas e Remodelagens'],
@@ -531,7 +531,7 @@ def graph7(theme):
                               name='Digital e Tecnologia'
                       ))
     fig7.update_layout(main_config,
-                       height=400,
+                       height=250,
                        title='CAPEX',
                        #xaxis_title='CAPEX',
                        yaxis_title='Valores',
@@ -555,7 +555,7 @@ def graphA(theme):
                                 number={'prefix': 'R$ '}
                                 ))
     
-    figA.update_layout(main_config, height=85,
+    figA.update_layout(main_config, height=80,
                        template=template_from_url(theme)
                        )
     
@@ -581,7 +581,7 @@ def graphB(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figB.update_layout(main_config, height=85,
+    figB.update_layout(main_config, height=80,
                        template=template_from_url(theme)
                        )
     
@@ -606,7 +606,7 @@ def graphC(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figC.update_layout(main_config, height=85,
+    figC.update_layout(main_config, height=80,
                        template=template_from_url(theme)
                        )
     
@@ -631,7 +631,7 @@ def graphD(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figD.update_layout(main_config, height=85,
+    figD.update_layout(main_config, height=80,
                        template=template_from_url(theme)
                        )
     
@@ -656,7 +656,7 @@ def graphE(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figE.update_layout(main_config, height=85,
+    figE.update_layout(main_config, height=80,
                        template=template_from_url(theme)
                        )
     
@@ -682,7 +682,7 @@ def graphF(theme):
                  number={'prefix': 'R$ '}
                  ))
     
-    figF.update_layout(main_config, height=85,
+    figF.update_layout(main_config, height=80,
                        template=template_from_url(theme)
                        )
     
