@@ -1,8 +1,9 @@
 
 ## Dashboard
 
-### Theme Flatly
-<img src="https://github.com/rrssouza/AnalysisFinance/blob/main/img/FinanceAnalysis(2).png" width="200" height="100" />
+### Theme
+
+<img src="https://github.com/rrssouza/AnalysisFinance/blob/main/img/FinanceAnalysis(2).png" width="200" height="100"/>
 
 
 
