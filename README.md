@@ -1,10 +1,8 @@
 
 ## Dashboard
 
-### Theme
 
-<img src="https://github.com/rrssouza/AnalysisFinance/blob/main/img/FinanceAnalysis(2).png" width="400" height="200"/>
-
+<img src="https://github.com/rrssouza/AnalysisFinance/blob/main/img/FinanceAnalysis(2).png" width="450" height="225" />
 
 
 ## Análise Financeira Ano (DRE) 
