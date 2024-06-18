@@ -1,19 +1,24 @@
 
-## Analise Financeira (DRE)
+## Análise Financeira (DRE)
 
-Dashboard para análise financeira
+Dashboard para simples Análise Financeira
+
+ETL >>> Dashboard
 
 
 ## 👨‍💻 Tecnologias Utilizadas
 
-Utilizando apenas **PYTHON** e as bibliotecas:
-> - Dash-Plotly
-> - Dash-Core-Components
-> - Dash HTML
-> - Dash Bootstrap
+**PYTHON** e as bibliotecas:
+
+> - Dash
 > - Plotly
+> - Dash Core Components
+> - Dash Bootstrap Components
+> - Dash Bootstrap Templates
 > - Pandas
 >´- Numpy
 
+
 > - Visual Studio Code
 > - Jupyter Lab
+> - Sublime Text
