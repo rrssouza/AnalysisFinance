@@ -1,5 +1,5 @@
 
-## Análise Financeira (DRE)
+## Análise Financeira Ano (DRE) 
 
 Dashboard para simples Análise Financeira
 
@@ -8,7 +8,7 @@ ETL >>> Dashboard
 
 ## 👨‍💻 Tecnologias Utilizadas
 
-**PYTHON** e as bibliotecas:
+**PYTHON** Tool's and lib's:
 
 > - Dash
 > - Plotly
